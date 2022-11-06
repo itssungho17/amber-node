@@ -1,6 +1,7 @@
-const { GraphQLSchema, GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList, GraphQLInt } = require('graphql')
+const { GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLNonNull } = require('graphql')
 const { ambers, users } = require('../samples/data')
 
+// Queries
 const AmberType = new GraphQLObjectType({
   name: 'Amber',
   fields: () => ({
@@ -45,8 +46,9 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     ambers: {
       type: new GraphQLList(AmberType),
+      args: { search: { type: GraphQLString } },
       resolve(parent, args) {
-        return ambers
+        return ambers.filter(amber => amber.title.includes(args.search))
       }
     },
     amber: {
@@ -66,6 +68,25 @@ const RootQuery = new GraphQLObjectType({
   }
 })
 
+// Mutations
+const RootMutation = new GraphQLObjectType({
+  name: 'RootMutationType',
+  fields: {
+    addAmber: {
+      type: AmberType,
+      args: {
+        user_id: { type: new GraphQLNonNull(GraphQLString) },
+        title: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        console.log(`${args.user_id} ,  ${args.title}`)
+        return { user_id: args.user_id, title: args.title }
+      }
+    }
+  }
+})
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: RootMutation
 })
