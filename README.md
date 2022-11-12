@@ -2,8 +2,9 @@
 
 This is a sample node.js project with...
 - express
-- GraphQL
 - PostgreSQL
+- Token-Based Authentication (JWT)
+- GraphQL
 
 ## Setup
 
