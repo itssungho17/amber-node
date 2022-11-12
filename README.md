@@ -1,7 +1,7 @@
 # Amber Node.js Project
 
 This is a sample node.js project with...
-- express
+- Express
 - PostgreSQL
 - Token-Based Authentication (JWT)
 - GraphQL
