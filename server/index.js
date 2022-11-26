@@ -6,6 +6,9 @@ const { graphqlHTTP } = require('express-graphql')
 const schema = require('./schema')
 const db = require('./models')
 const userRouter = require('./routes/user.router.js')
+const fileRouter = require('./routes/file.router.js')
+
+global.__storagedir = __dirname.replace('server', 'public') + '/storage/'
 
 dotenv.config()
 
@@ -22,6 +25,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // routes : REST API
 app.use('/v1/api/user', userRouter)
+app.use('/v1/api/file', fileRouter)
 
 // graphql
 app.use('/v1/gql', graphqlHTTP({

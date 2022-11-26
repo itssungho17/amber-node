@@ -19,17 +19,17 @@ const signup = async (req, res) => {
   const phone = body.phone
 
   if (!email || !password || !firstName || !lastName ) {
-    res.status(400).send({ error: 'Required data is missing.' })
+    res.status(400).send({ message: 'Required data is missing.' })
     return
   }
 
   if (!validator.isEmail(email)) {
-    res.status(400).send({ error: 'Email is not valid.' })
+    res.status(400).send({ message: 'Email is not valid.' })
     return
   }
 
   if (!validator.isStrongPassword(password)) {
-    res.status(400).send({ error: 'Password is not strong enough.' })
+    res.status(400).send({ message: 'Password is not strong enough.' })
     return
   }
   
@@ -41,7 +41,7 @@ const signup = async (req, res) => {
     })
 
     if (existed) {
-      res.status(409).send({ error: 'Email is already existed.' })
+      res.status(409).send({ message: 'Email is already existed.' })
       return
     }
 
@@ -69,11 +69,11 @@ const signup = async (req, res) => {
         })
       })
       .catch(err => {
-        res.status(500).send({ error: err.message })
+        res.status(500).send({ message: err.message })
       })
 
   } catch (err) {
-    res.status(400).json({ error: err.message })
+    res.status(400).json({ message: err.message })
   }
 }
 
@@ -84,7 +84,7 @@ const login = async (req, res) => {
   const password = body.password
 
   if (!email || !password) {
-    res.status(400).send({ error: 'Required data is missing.' })
+    res.status(400).send({ message: 'Required data is missing.' })
     return
   }
 
@@ -96,14 +96,14 @@ const login = async (req, res) => {
     })
     
     if (!user) {
-      res.status(400).send({ error: 'Email is incorrect.' })
+      res.status(400).send({ message: 'Email is incorrect.' })
       return
     }
 
     const isMatched = await bcrypt.compare(password, user.password)
     
     if (!isMatched) {
-      res.status(400).send({ error: 'Password is incorrect.' })
+      res.status(400).send({ message: 'Password is incorrect.' })
       return
     }
 
@@ -118,7 +118,7 @@ const login = async (req, res) => {
     })
 
   } catch (err) {
-    res.status(400).json({ error: err.message })
+    res.status(400).json({ message: err.message })
   }
 }
 

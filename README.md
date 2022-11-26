@@ -4,7 +4,8 @@ This is a sample node.js project with...
 - Express
 - PostgreSQL
 - Token-Based Authentication (JWT)
-- GraphQL
+- Multer
+- GraphQL (TBD)
 
 ## Setup
 
