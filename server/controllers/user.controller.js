@@ -16,7 +16,7 @@ const signup = async (req, res) => {
   const password = body.password
   const firstName = body.firstName
   const lastName = body.lastName
-  const phone = body.phone
+  var phone = body.phone
 
   if (!email || !password || !firstName || !lastName ) {
     res.status(400).send({ message: 'Required data is missing.' })
@@ -47,6 +47,10 @@ const signup = async (req, res) => {
 
     const salt = await bcrypt.genSalt(7)
     const hashedPassword = await bcrypt.hash(password, salt)
+
+    if (phone) {
+      phone = phone.replace(/-/g, '')
+    }
   
     const user = {
       email: email,
