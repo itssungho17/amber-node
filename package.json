@@ -7,7 +7,7 @@
     "url": " https://github.com/itssungho17"
   },
   "private": true,
-  "license": "UNLICENSED",
+  "license": "ISC",
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
