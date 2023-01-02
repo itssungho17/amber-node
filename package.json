@@ -3,10 +3,9 @@
   "version": "0.0.1",
   "description": "Amber Node.js Project",
   "author": {
-    "name": "Sung Ho Alex Son",
+    "name": "Sung-Ho Alex Son",
     "url": " https://github.com/itssungho17"
   },
-  "private": true,
   "license": "ISC",
   "main": "index.js",
   "scripts": {
