@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
-const User = require('../models').User
+const { User, Device } = require('../models')
 
 const tokenTtl = 86400 // 24 hours
 
@@ -86,6 +86,7 @@ const login = async (req, res) => {
 
   const email = body.email
   const password = body.password
+  const reqDevice = body.device
 
   if (!email || !password) {
     res.status(400).send({ message: 'Required data is missing.' })
@@ -111,16 +112,30 @@ const login = async (req, res) => {
       return
     }
 
-    const token = createToken(user.id)
+    if (reqDevice) {
+      const device = {
+        userId: user.id,
+        os: reqDevice.os,
+        model: reqDevice.model,
+        token: reqDevice.token
+      }
 
-    res.status(200).send({
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      accessToken: token,
-      accessTokenTtl: tokenTtl
-    })
+      Device.create(device)
+      .then(device => {
+        const token = createToken(user.id)
 
+        res.status(200).send({
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          accessToken: token,
+          accessTokenTtl: tokenTtl
+        })
+      })
+      .catch(err => {
+        res.status(500).send({ message: err.message })
+      })
+    }
   } catch (err) {
     res.status(400).json({ message: err.message })
   }

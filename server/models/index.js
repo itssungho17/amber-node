@@ -16,6 +16,7 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 db.User = require('./user.model.js')(sequelize, Sequelize)
+db.Device = require('./device.model.js')(sequelize, Sequelize)
 // db.Amber = require('./amber.model.js')(sequelize, Sequelize)
 
 module.exports = db
