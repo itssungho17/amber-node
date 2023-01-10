@@ -120,21 +120,55 @@ const login = async (req, res) => {
         token: reqDevice.token
       }
 
-      Device.create(device)
-      .then(device => {
-        const token = createToken(user.id)
+      const existed = await Device.findOne({
+        where: {
+          userId: user.id,
+          os: reqDevice.os,
+          model: reqDevice.model
+        }
+      })
 
-        res.status(200).send({
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          accessToken: token,
-          accessTokenTtl: tokenTtl
+      if (existed) {
+        Device.update({
+          token: reqDevice.token
+        }, {
+          where: {
+            userId: user.id,
+            os: reqDevice.os,
+            model: reqDevice.model
+          }
         })
-      })
-      .catch(err => {
-        res.status(500).send({ message: err.message })
-      })
+        .then(device => {
+          const token = createToken(user.id)
+  
+          res.status(200).send({
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            accessToken: token,
+            accessTokenTtl: tokenTtl
+          })
+        })
+        .catch(err => {
+          res.status(500).send({ message: err.message })
+        })
+      } else {
+        Device.create(device)
+        .then(device => {
+          const token = createToken(user.id)
+  
+          res.status(200).send({
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            accessToken: token,
+            accessTokenTtl: tokenTtl
+          })
+        })
+        .catch(err => {
+          res.status(500).send({ message: err.message })
+        })
+      }
     }
   } catch (err) {
     res.status(400).json({ message: err.message })
