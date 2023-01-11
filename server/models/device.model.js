@@ -1,8 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
   const Device = sequelize.define('device', {
-    userId: {
-      field: 'user_id',
-      type: Sequelize.UUID,
+    email: {
+      type: Sequelize.STRING(50),
       primaryKey: true,
       allowNull: false
     },

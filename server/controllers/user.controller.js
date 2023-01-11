@@ -114,7 +114,7 @@ const login = async (req, res) => {
 
     if (reqDevice) {
       const device = {
-        userId: user.id,
+        email: user.email,
         os: reqDevice.os,
         model: reqDevice.model,
         token: reqDevice.token
@@ -122,9 +122,8 @@ const login = async (req, res) => {
 
       const existed = await Device.findOne({
         where: {
-          userId: user.id,
-          os: reqDevice.os,
-          model: reqDevice.model
+          email: user.email,
+          os: reqDevice.os
         }
       })
 
@@ -133,9 +132,8 @@ const login = async (req, res) => {
           token: reqDevice.token
         }, {
           where: {
-            userId: user.id,
-            os: reqDevice.os,
-            model: reqDevice.model
+            email: user.email,
+            os: reqDevice.os
           }
         })
         .then(device => {
